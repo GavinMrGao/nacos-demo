@@ -1,0 +1,27 @@
+
+server:
+  port: 6002
+
+spring:
+  profiles:
+    active: DEV
+  application:
+    name: user-server
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      config:
+        server-addr: localhost:8848 # 配置中心地址
+        file-extension: yaml # dataId 为application.name + -profiles + file-extension 示例 user-server-DEV.yaml
+        namespace: cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71 # 具体的namespace 当前为DEV-namespace
+        group: Talent-A
+        refresh-enabled: true
+
+logging:
+  level:
+    com:
+      alibaba:
+        cloud:
+          nacos:
+            client: debug

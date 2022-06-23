@@ -1,0 +1,40 @@
+
+server:
+  port: 6001
+
+spring:
+  profiles:
+    active: DEV
+  application:
+    name: order-server
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      config:
+        enabled: true # 配置开关
+        server-addr: localhost:8848 # 配置中心地址
+        file-extension: yaml # dataId 优先级最大 为application.name + -profiles + file-extension 示例 order-server-DEV.yaml
+        namespace: cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71 # 具体的namespace 当前为DEV-namespace
+        group: Talent-A
+        refresh-enabled: true
+        # 扩展配置源(优先级大于 shared-configs，在 shared-configs 之后加载，建议使用;同类型后置优先级最高)
+        extension-configs[0]:
+          data-id: ext-config-common01.properties
+        extension-configs[1]:
+          data-id: ext-config-common02.properties
+          group: GLOBALE_GROUP
+        extension-configs[2]:
+          data-id: ext-config-common03.properties
+          group: REFRESH_GROUP
+          refresh: true # 动态刷新
+        # 共享配置源(与扩展配置源用法一致,只支持DEFAULT_GROUP)
+        shared-configs[0]:
+          data-id: shared-config-common01.properties
+logging:
+  level:
+    com:
+      alibaba:
+        cloud:
+          nacos:
+            client: debug
