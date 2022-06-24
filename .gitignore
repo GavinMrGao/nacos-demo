@@ -1,0 +1,3 @@
+# Project exclude paths
+/order-server/target/
+/user-server/target/

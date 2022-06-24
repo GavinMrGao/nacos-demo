@@ -1,7 +1,4 @@
-
-server:
-  port: 6002
-
+# bootstrap 配置
 spring:
   profiles:
     active: DEV
