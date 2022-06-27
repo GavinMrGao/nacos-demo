@@ -1,19 +1,26 @@
-# bootstrap 配置
+# application 配置
+server:
+  port: 6002
+# bootstrap 配置 nacos 必须启动前加载
 spring:
   profiles:
-    active: DEV
+    active: DEV # 动态环境指定？ spring.profiles.active 启动与否影响dataId 自动拼装规则，开发前约定好
   application:
-    name: user-server
+    name: ${application-name:user-server} # 动态指定？
   cloud:
     nacos:
       username: nacos
       password: nacos
       config:
-        server-addr: localhost:8848 # 配置中心地址
+        server-addr: ${nacos-serevr-addr:localhost:8848} # 配置中心地址 nacos-serevr-addr
         file-extension: yaml # dataId 为application.name + -profiles + file-extension 示例 user-server-DEV.yaml
-        namespace: cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71 # 具体的namespace 当前为DEV-namespace
-        group: Talent-A
+        namespace: ${application-namespace:cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71} # 具体的namespace 当前为DEV-namespace 动态环境指定？
+        group: ${group:Talent-A}
         refresh-enabled: true
+      discovery:
+        server-addr: ${nacos-serevr-addr:localhost:8848} # 配置中心地址，支持集群模式，也可以使用vip统一收口
+        namespace: ${application-namespace:cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71} # 具体的namespace 当前为DEV-namespace 动态环境指定？
+        cluster-name: ${server-cluster:DEFAULT} # 默认集群DEFAULT，可以不填写，可自定义(相同集群的实例才能互相感知，可用于分组隔离) 可以与group共同治理
 
 logging:
   level:
@@ -22,3 +29,6 @@ logging:
         cloud:
           nacos:
             client: debug
+    root:
+      org:
+        springframework: info
