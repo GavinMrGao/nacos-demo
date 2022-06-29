@@ -1,15 +1,14 @@
-# application 配置
-server:
-  port: 6002 # 可被覆盖
-#  servlet:
-#    context-path: /talent-A 发布后不可调整
 # bootstrap 配置 nacos 必须启动前加载
 spring:
   profiles:
     active: DEV # 动态环境指定？ spring.profiles.active 启动与否影响dataId 自动拼装规则，开发前约定好
   application:
-    name: ${application-name:user-server} # 动态指定？
+    name: ${application-name:app-gateway} # 动态指定？
   cloud:
+    sentinel: # sentinel 控制台
+      eager: true
+      transport:
+        dashboard: localhost:9999
     nacos:
       username: nacos
       password: nacos
@@ -19,12 +18,6 @@ spring:
         namespace: ${application-namespace:cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71} # 具体的namespace 当前为DEV-namespace 动态环境指定？
         group: ${group:Talent-A}
         refresh-enabled: true
-# 应用级参数配置可走nacos配置中心
-#      discovery:
-#        server-addr: ${nacos-serevr-addr:localhost:8848} # 配置中心地址，支持集群模式，也可以使用vip统一收口
-#        namespace: ${application-namespace:cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71} # 具体的namespace 当前为DEV-namespace 动态环境指定？
-#        cluster-name: ${server-cluster:DEFAULT} # 默认集群DEFAULT，可以不填写，可自定义(相同集群的实例才能互相感知，可用于分组隔离) 可以与group共同治理
-#        group: ${group:Talent-A}
 logging:
   level:
     com:

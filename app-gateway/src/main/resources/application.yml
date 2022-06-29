@@ -1,0 +1,33 @@
+## application 配置 可在nacos配置
+#server:
+#  port: 6066
+## bootstrap 配置 nacos 必须启动前加载
+#spring:
+#  application:
+#    name: app-gateway
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#        namespace: cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71
+#        cluster-name: Talent-A
+#        group: AAA
+#    gateway:
+#      default-filters:
+#        - AddRequestHeader=gateway-env, springcloud-gateway
+#        - CustomRouteFilter=true # 自定义过滤器
+#      routes:
+#        - id: "server_v3"
+#          uri: "http://localhost:6001"
+#          predicates:
+#            - Path=/user/client/**
+#          #filters:
+#          #  - PrefixPath=/order-server uri+predixPath+path
+#        - id: "server_v2"
+#          uri: "http://localhost:6002"
+#          predicates:
+#            - Path=/order/client/**
+#        - id: "server_v1"
+#          uri: "http://localhost:6001"
+#          predicates:
+#            - Path=/config/**

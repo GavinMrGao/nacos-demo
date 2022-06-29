@@ -9,10 +9,12 @@ spring:
     nacos:
 #      username: nacos
 #      password: nacos
+# 相同的namespace group cluster-name 下方可访问，默认 DEFAULT
       discovery:
         server-addr: localhost:8848,127.0.0.1:8850,127.0.0.1:8852 # 配置中心地址，支持集群模式，也可以使用vip统一收口
         namespace: cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71 # 具体的namespace 当前为DEV-namespace
         cluster-name: DEFAULT # 默认集群DEFAULT，可以不填写，可自定义(相同集群的实例才能互相感知，可用于分组隔离)
+        group: AAA
 
 logging:
   level:
