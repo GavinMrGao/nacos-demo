@@ -1,6 +1,7 @@
-## application 配置 可在nacos配置
+## application 配置
 #server:
 #  port: 6066
+## 发布后不可调整
 ## bootstrap 配置 nacos 必须启动前加载
 #spring:
 #  application:
@@ -9,25 +10,52 @@
 #    nacos:
 #      discovery:
 #        server-addr: localhost:8848
-#        namespace: cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71
+#        namespace: cad80ddb-e5ed-4f13-ae8f-5b5bb9751d71 # 环境区分
+#        gateway集群对应配置group、分组
 #        cluster-name: Talent-A
 #        group: AAA
 #    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+#          # 启用探测器，gateway 可以发现nacos中的微服务,通过routes uri lb 服务名动态负载平衡调用
 #      default-filters:
-#        - AddRequestHeader=gateway-env, springcloud-gateway
-#        - CustomRouteFilter=true # 自定义过滤器
+#      # 自定义过滤器
+#      #  - CustomRouteFilter=true
+#      #   - AddRequestHeader=gateway-env, springcloud-gateway
 #      routes:
+#        - id: order-server_route
+#          uri: lb://order-server
+#          # lb 负载均衡，对应服务名称
+#          predicates:
+#            - Path=/order-server/**
+#          filters:
+#            - AddRequestHeader=X-Request-Talent, Talent-value
+#
+#        - id: user-server_route
+#          uri: lb://user-server
+#          # lb 负载均衡，对应服务名称
+#          predicates:
+#            - Path=/user-server/**
+#        # - id: "server_v4"
+#        #   uri: "http://localhost:6066"
+#        #   predicates:
+#        #     - Path=/config/get
+#        #   filters:
+#        #     - PrefixPath=/gateway
+#
 #        - id: "server_v3"
 #          uri: "http://localhost:6001"
 #          predicates:
 #            - Path=/user/client/**
-#          #filters:
-#          #  - PrefixPath=/order-server uri+predixPath+path
+#
 #        - id: "server_v2"
 #          uri: "http://localhost:6002"
 #          predicates:
 #            - Path=/order/client/**
+#
 #        - id: "server_v1"
-#          uri: "http://localhost:6001"
+#          uri: "http://localhost:6011"
 #          predicates:
 #            - Path=/config/**
+#
